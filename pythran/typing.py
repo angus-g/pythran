@@ -58,6 +58,12 @@ class NDArrayMeta(type):
         return NDArray(item)
 
 
+class DequeMeta(type):
+
+    def __getitem__(cls, item):
+        return Deque(item)
+
+
 class PointerMeta(type):
 
     def __getitem__(cls, item):
@@ -115,6 +121,10 @@ class Optional(Type, metaclass=OptionalMeta):
 
 
 class NDArray(Type, metaclass=NDArrayMeta):
+    pass
+
+
+class Deque(Type, metaclass=DequeMeta):
     pass
 
 

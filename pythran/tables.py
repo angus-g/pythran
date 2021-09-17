@@ -7,7 +7,7 @@ import numpy
 import sys
 
 from pythran.typing import Dict, Set, List, TypeVar, Union, Optional, NDArray
-from pythran.typing import Generator, Fun, Tuple, Iterable, Sized, File
+from pythran.typing import Generator, Fun, Tuple, Iterable, Sized, File, Deque
 
 from pythran.conversion import to_ast, ToNotEval
 from pythran.intrinsic import Class
@@ -825,6 +825,35 @@ CLASSES = {
         ),
         "tofile": ConstMethodIntr(signature=Fun[[NDArray[T0, :]], str, str], global_effects=True),
         "tostring": ConstMethodIntr(signature=Fun[[NDArray[T0, :]], str]),
+    },
+    "deque": {
+        "maxlen": AttributeIntr(signature=Fun[[Deque[T0]], int]),
+        "append": MethodIntr(signature=Fun[[Deque[T0], T0], None]),
+        "appendleft": MethodIntr(signature=Fun[[Deque[T0], T0], None]),
+        "clear": MethodIntr(signature=Fun[[Deque[T0]], None]),
+        "copy": ConstMethodIntr(signature=Fun[[Deque[T0]], Deque[T0]]),
+        "count": ConstMethodIntr(signature=Fun[[Deque[T0], T0], int]),
+        "extend": MethodIntr(update_effects),
+        "extendleft": MethodIntr(update_effects),
+        "index": ConstMethodIntr(
+            signature=Union[
+                Fun[[Deque[T0], T0], int],
+                Fun[[Deque[T0], T0, int], int],
+                Fun[[Deque[T0], T0, int, int], int],
+            ],
+            return_range=interval.positive_values
+        ),
+        "insert": MethodIntr(signature=Fun[[Deque[T0], int, T0], None]),
+        "pop": MethodIntr(signature=Fun[[Deque[T0]], T0]),
+        "popleft": MethodIntr(signature=Fun[[Deque[T0]], T0]),
+        "remove": MethodIntr(signature=Fun[[Deque[T0], T0], None]),
+        "reverse": MethodIntr(signature=Fun[[Deque[T0]], None]),
+        "rotate": MethodIntr(
+            signature=Union[
+                Fun[[Deque[T0]], None],
+                Fun[[Deque[T0], int], None],
+            ],
+        ),
     },
 }
 
@@ -4149,6 +4178,16 @@ MODULES = {
         ),
         "reduce": ReadOnceFunctionIntr(signature=_functools_reduce_signature),
     },
+    "collections": {
+        "deque": ClassWithReadOnceConstructor(
+            CLASSES['deque'],
+            signature=Union[
+                Fun[[], Deque[T0]],
+                Fun[[Iterable[T0]], Deque[T0]],
+                Fun[[Iterable[T0], int], Deque[T0]],
+            ],
+        ),
+    },
     "bisect": {
         "bisect_left": ConstFunctionIntr(
             signature=Union[
@@ -4466,6 +4505,7 @@ MODULES = {
     },
     # conflicting method names must be listed here
     "__dispatch__": {
+        "append": MethodIntr(signature=Fun[[Iterable[T0], T0], None]),
         "clear": MethodIntr(signature=Fun[[T0], None]),
         "conjugate": ConstMethodIntr(),
         "copy": ConstMethodIntr(signature=Fun[[T0], T0]),
@@ -4477,6 +4517,7 @@ MODULES = {
             ],
             return_range=interval.positive_values
         ),
+        "extend": MethodIntr(update_effects),
         "index": ConstMethodIntr(
             signature=Union[
                 Fun[[Iterable[T0], T0], int],
@@ -4485,8 +4526,10 @@ MODULES = {
             ],
             return_range=interval.positive_values
         ),
+        "insert": MethodIntr(signature=Fun[[Iterable[T0], int, T0], None]),
         "pop": MethodIntr(),
         "remove": MethodIntr(),
+        "reverse": MethodIntr(),
         "sort": MethodIntr(),
         "update": MethodIntr(update_effects),
     },
