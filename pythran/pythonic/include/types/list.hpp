@@ -339,6 +339,8 @@ namespace types
 
     // TODO: have to raise a valueError
     none_type remove(T const &x);
+    none_type extend(list<T> const &add);
+    none_type reverse();
 
     // Misc
     // TODO: have to raise a valueError
@@ -446,6 +448,9 @@ namespace types
     template <class T>
     operator list<T>() const;
     static constexpr long size();
+
+    template <class T>
+    none_type extend(list<T> const &add);
 
     template <size_t I>
     std::integral_constant<long, 0> shape() const

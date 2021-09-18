@@ -552,6 +552,8 @@ namespace types
   template <class Tp>
   void list<T>::insert(long i, Tp &&x)
   {
+    if (i < 0) i += size();
+
     if (i == size())
       data->emplace_back(std::forward<Tp>(x));
     else
@@ -713,6 +715,26 @@ namespace types
   long list<T>::count(T const &x) const
   {
     return std::count(begin(), end(), x);
+  }
+
+  template <class T>
+  none_type list<T>::extend(list<T> const &add)
+  {
+    *this += add;
+    return {};
+  }
+
+  template <class T>
+  none_type empty_list::extend(list<T> const &add)
+  {
+    return {};
+  }
+
+  template <class T>
+  none_type list<T>::reverse()
+  {
+    std::reverse(begin(), end());
+    return {};
   }
 
   /// Empty list
