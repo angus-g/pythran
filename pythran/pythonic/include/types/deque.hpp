@@ -8,15 +8,12 @@ PYTHONIC_NS_BEGIN
 namespace types
 {
   template <class T>
-  using container = std::deque<T>;
-
-  template <class T>
   class deque
   {
-    typedef
-      typename std::remove_cv<typename std::remove_reference<T>::type>::type
-      _type;
-    typedef container<_type> container_type;
+    using _type =
+      typename std::remove_cv<typename std::remove_reference<T>::type>::type;
+    using container_type = std::deque<_type>;
+
     utils::shared_ref<container_type> data;
   };
 }
