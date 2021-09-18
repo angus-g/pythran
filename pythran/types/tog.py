@@ -181,6 +181,7 @@ StrTrait = TypeOperator('str', [])
 FileTrait = TypeOperator('file', [])
 ArrayTrait = TypeOperator('array', [])
 GenerableTrait = TypeOperator('gen', [])
+DequeTrait = TypeOperator('deque', [])
 
 LenTrait = TypeOperator("len", [])
 NoLenTrait = TypeOperator("no_len", [])
@@ -221,6 +222,11 @@ def Array(of_type, dim):
                       AnyType,
                       AnyType,
                       Array(of_type, dim - 1) if dim > 1 else of_type)
+
+
+def Deque(of_type):
+    return Collection(Traits([DequeTrait, LenTrait, NoSliceTrait]),
+                      Integer(), of_type, of_type)
 
 
 def Iterable(of_type, dim):
@@ -458,6 +464,9 @@ def tr(t):
 
         elif isinstance(t, typing.Pointer):
             return Array(rec_tr(t.__args__[0], env), 1)
+
+        elif isinstance(t, typing.Deque):
+            return Deque(rec_tr(t.__args__[0], env))
 
         elif isinstance(t, typing.Union):
             return MultiType([rec_tr(ut, env) for ut in t.__args__])
