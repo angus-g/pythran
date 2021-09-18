@@ -1,0 +1,13 @@
+#ifndef PYTHONIC_TYPES_DEQUE_HPP
+#define PYTHONIC_TYPES_DEQUE_HPP
+
+PYTHONIC_NS_BEGIN
+
+namespace types
+{
+  
+}
+
+PYTHONIC_NS_END
+
+#endif
