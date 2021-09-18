@@ -1,7 +1,7 @@
 #ifndef PYTHONIC_INCLUDE_TYPES_DEQUE_HPP
 #define PYTHONIC_INCLUDE_TYPES_DEQUE_HPP
 
-#include <deque>en 
+#include <deque>
 
 PYTHONIC_NS_BEGIN
 
