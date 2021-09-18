@@ -4,7 +4,7 @@ from numpy import int8, int16, int32, int64, intp, intc
 from numpy import uint8, uint16, uint32, uint64, uintp, uintc
 from numpy import float64, float32, complex64, complex128
 import numpy
-from pythran.typing import List, Dict, Set, Tuple, NDArray, Pointer, Fun
+from pythran.typing import List, Dict, Set, Tuple, NDArray, Pointer, Fun, Deque
 
 PYTYPE_TO_CTYPE_TABLE = {
     numpy.uint: 'npy_uint',
@@ -92,6 +92,10 @@ def pytype_to_ctype(t):
             pytype_to_ctype(t.__args__[-1]),
             ", ".join(pytype_to_ctype(arg) for arg in t.__args__[:-1]),
         )
+    elif isinstance(t, Deque):
+        return 'pythonic::type::deque<{0}>'.format(
+            pytype_to_ctype(t.__args__[0])
+        )
     elif t in PYTYPE_TO_CTYPE_TABLE:
         return PYTYPE_TO_CTYPE_TABLE[t]
     else:
@@ -133,6 +137,8 @@ def pytype_to_pretty_type(t):
         rtype = pytype_to_pretty_type(t.__args__[-1])
         argtypes = [pytype_to_pretty_type(arg) for arg in t.__args__[:-1]]
         return '{}({})'.format(rtype, ", ".join(argtypes))
+    elif isinstance(t, Deque):
+        return '{0} deque'.format(pytype_to_pretty_type(t.__args__[0]))
     elif t in PYTYPE_TO_CTYPE_TABLE:
         return t.__name__
     else:
