@@ -93,7 +93,7 @@ def pytype_to_ctype(t):
             ", ".join(pytype_to_ctype(arg) for arg in t.__args__[:-1]),
         )
     elif isinstance(t, Deque):
-        return 'pythonic::type::deque<{0}>'.format(
+        return 'pythonic::types::deque<{0}>'.format(
             pytype_to_ctype(t.__args__[0])
         )
     elif t in PYTYPE_TO_CTYPE_TABLE:
