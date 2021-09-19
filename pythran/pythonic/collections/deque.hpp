@@ -5,19 +5,22 @@
 
 #include "pythonic/types/deque.hpp"
 
+#include <iterator>
+#include <type_traits>
+
 PYTHONIC_NS_BEGIN
 
 namespace collections
 {
   template <class Iterable>
   types::deque<typename std::decay<typename std::iterator_traits<
-      typename std::remove_reference<Iterable>::type::iterable>::value_type>::
+      typename std::remove_reference<Iterable>::type::iterator>::value_type>::
                    type>
   deque(Iterable &&t)
   {
     return types::deque<typename std::decay<
       typename std::iterator_traits<typename std::remove_reference<
-	Iterable>::type::iterator>::value_type>::type(t.begin(), t.end());
+	Iterable>::type::iterator>::value_type>::type>(t.begin(), t.end());
   }
 }
 PYTHONIC_NS_END

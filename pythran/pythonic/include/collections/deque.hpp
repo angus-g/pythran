@@ -1,6 +1,12 @@
 #ifndef PYTHONIC_INCLUDE_COLLECTIONS_DEQUE_HPP
 #define PYTHONIC_INCLUDE_COLLECTIONS_DEQUE_HPP
 
+#include "pythonic/include/types/deque.hpp"
+#include "pythonic/include/utils/functor.hpp"
+
+#include <iterator>
+#include <type_traits>
+
 PYTHONIC_NS_BEGIN
 
 namespace collections
