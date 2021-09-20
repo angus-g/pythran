@@ -38,6 +38,13 @@ namespace types
     const_reference operator[](long n) const;
 
     long size() const;
+
+    template <class Tp>
+    void push_back(Tp &&x);
+    template <class Tp>
+    void push_front(Tp &&x);
+
+    none_type append(T const &x);
   };
 }
 

@@ -727,6 +727,21 @@ namespace types
   template <class T>
   none_type empty_list::extend(list<T> const &add)
   {
+    *this += add;
+    return {};
+  }
+
+  template <class T>
+  none_type empty_list::append(T const &x)
+  {
+    push_back(x);
+    return {};
+  }
+
+  template <class T>
+  none_type list<T>::append(T const &x)
+  {
+    push_back(x);
     return {};
   }
 

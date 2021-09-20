@@ -82,6 +82,27 @@ namespace types
   {
     return data->size();
   }
+
+  template <class T>
+  template <class Tp>
+  void deque<T>::push_back(Tp &&x)
+  {
+    data->push_back(std::forward<Tp>(x));
+  }
+
+  template <class T>
+  template <class Tp>
+  void deque<T>::push_front(Tp &&x)
+  {
+    data->push_front(std::forward<Tp>(x));
+  }
+
+  template <class T>
+  none_type deque<T>::append(T const &x)
+  {
+    data->push_back(x);
+    return {};
+  }
 }
 
 #ifdef ENABLE_PYTHON_MODULE
